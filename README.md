@@ -5,7 +5,7 @@ For 2017 I decided to create **and ship** one project every month. Inspired by [
 
 ---
 
-## 01 Photo
+## 01 PhotoCluster
 
 ## 02
 
