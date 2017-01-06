@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Photos
+import RealmSwift
 
 class PhotoCell: UICollectionViewCell {
 
@@ -17,6 +18,9 @@ class PhotoCell: UICollectionViewCell {
       self.reload()
     }
   }
+  var asset: PHAsset! // set before photo
+
+  private var oldId = ""
   private let imageView = UIImageView()
 
   override init(frame: CGRect) {
@@ -38,15 +42,17 @@ class PhotoCell: UICollectionViewCell {
   }
 
   private func reload() {
-    if let photo = self.photo {
-      let oldId = photo.id
-      let asset = PHAsset.fetchAssets(withLocalIdentifiers: [photo.assetId], options: nil).firstObject!
-      self.getAssetThumbnail(asset: asset, size: self.imageView.frame.size.width, completion: { (image: UIImage?) -> (Void) in
-        if self.photo?.id == oldId {
+    if self.photo != nil {
+      self.oldId = self.photo!.id
+      self.getAssetThumbnail(asset: self.asset, size: self.imageView.frame.size.width, completion: { (image: UIImage?) -> (Void) in
+        if self.photo?.id == self.oldId {
           self.imageView.image = image
+        } else {
+          print("not same")
         }
       })
     } else {
+      self.oldId = ""
       self.imageView.image = nil
     }
   }

@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
   private var collectionView: UICollectionView!
   fileprivate var photos: Results<Photo>?
+  fileprivate var assetCache = [String:PHAsset]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -61,7 +62,14 @@ extension ViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
-    cell.photo = self.photos![indexPath.row]
+    let photo = self.photos![indexPath.row]
+    var asset = self.assetCache[photo.assetId]
+    if asset == nil {
+      asset = PHAsset.fetchAssets(withLocalIdentifiers: [photo.assetId], options: nil).firstObject!
+      self.assetCache[photo.assetId] = asset
+    }
+    cell.asset = asset
+    cell.photo = photo
     return cell
   }
 }
