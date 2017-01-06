@@ -19,10 +19,10 @@ class Photo: Object {
 
   dynamic var id = NSUUID().uuidString
   dynamic var assetId = ""
-  dynamic var creationDate: NSDate! {
+  dynamic var creationDate: Date! {
     didSet {
       let calendar = NSCalendar.current
-      let c = calendar.dateComponents([.day, .month, .year, .weekday, .hour], from: self.creationDate as Date)
+      let c = calendar.dateComponents([.day, .month, .year, .weekday, .hour], from: self.creationDate)
       self.day = c.day!
       self.month = c.month!
       self.year = c.year!

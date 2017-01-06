@@ -42,6 +42,7 @@ class ImportHelper {
 
     let photo = Photo()
     photo.assetId = asset.localIdentifier
+    photo.creationDate = asset.creationDate ?? Date()
 
     let realm = try! Realm()
     try! realm.write {

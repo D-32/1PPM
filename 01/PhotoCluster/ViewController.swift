@@ -48,7 +48,7 @@ class ViewController: UIViewController {
 
   private func reload() {
     let realm = try! Realm()
-    self.photos = realm.objects(Photo.self)
+    self.photos = realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false)
     self.collectionView.reloadData()
   }
 }
