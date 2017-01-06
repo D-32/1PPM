@@ -31,7 +31,16 @@ class ViewController: UIViewController {
     self.collectionView.dataSource = self
     self.collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
     self.collectionView.backgroundColor = UIColor.white
+    self.collectionView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
+    self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     self.view.addSubview(self.collectionView)
+
+
+    let statusBarUnderlay = UIView()
+    statusBarUnderlay.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 20)
+    statusBarUnderlay.backgroundColor = UIColor.white.withAlphaComponent(0.95)
+    self.view.addSubview(statusBarUnderlay)
+
 
     let nc = NotificationCenter.default
     let queue = OperationQueue.main
