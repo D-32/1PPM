@@ -1,0 +1,8 @@
+
+target 'PhotoCluster' do
+  use_frameworks!
+
+  pod 'LKAlertController', '~> 1.6'
+  pod 'RealmSwift', '~> 1.0'
+
+end
