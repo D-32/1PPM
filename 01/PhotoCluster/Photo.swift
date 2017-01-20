@@ -22,12 +22,13 @@ class Photo: Object {
   dynamic var creationDate: Date! {
     didSet {
       let calendar = NSCalendar.current
-      let c = calendar.dateComponents([.day, .month, .year, .weekday, .hour], from: self.creationDate)
+      let c = calendar.dateComponents([.day, .month, .year, .weekday, .hour, .minute], from: self.creationDate)
       self.day = c.day!
       self.month = c.month!
       self.year = c.year!
       self.dayOfWeek = c.weekday!
       self.hour = c.hour!
+      self.minute = c.minute!
     }
   }
   dynamic var day: Int = 0
@@ -35,6 +36,7 @@ class Photo: Object {
   dynamic var year: Int = 0
   dynamic var dayOfWeek: Int = 0
   dynamic var hour: Int = 0
+  dynamic var minute: Int = 0
 
   dynamic var latitude: Double = 0.0
   dynamic var longitude: Double = 0.0

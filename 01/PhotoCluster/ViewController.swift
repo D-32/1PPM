@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     self.collectionView.dataSource = self
     self.collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
     self.collectionView.backgroundColor = UIColor.white
-    self.collectionView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
+    self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     self.view.addSubview(self.collectionView)
 
@@ -41,6 +41,9 @@ class ViewController: UIViewController {
     statusBarUnderlay.backgroundColor = UIColor.white.withAlphaComponent(0.95)
     self.view.addSubview(statusBarUnderlay)
 
+
+    let filterItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filterItemTapped))
+    self.navigationItem.rightBarButtonItem = filterItem
 
     let nc = NotificationCenter.default
     let queue = OperationQueue.main
@@ -53,13 +56,27 @@ class ViewController: UIViewController {
     self.loadNewPhotos {
       self.reload()
     }
-
   }
 
   private func reload() {
     let realm = try! Realm()
     self.photos = realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false)
     self.collectionView.reloadData()
+  }
+
+  func filterItemTapped() {
+    let alert = UIAlertController(title: "Choose Filter Type", message: nil, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: "🕑 Time", style: .default, handler: { _ in
+      self.openFilterViewController(.time)
+    }))
+
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    self.present(alert, animated: true, completion: nil)
+  }
+
+  private func openFilterViewController(_ type: FilterType) {
+    let vc = FilterViewController(filterType: type)
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 
