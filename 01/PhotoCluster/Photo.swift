@@ -64,4 +64,8 @@ class Photo: Object {
   override class func primaryKey() -> String? {
     return "id"
   }
+
+  func totalMinutesInDay() -> Int {
+    return self.hour * 60 + self.minute
+  }
 }

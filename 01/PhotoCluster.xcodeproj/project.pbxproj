@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0301C4FA1E1AAAA300BA67FB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0301C4F91E1AAAA300BA67FB /* Photo.swift */; };
 		0301C4FC1E1AAABC00BA67FB /* ImportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0301C4FB1E1AAABC00BA67FB /* ImportHelper.swift */; };
+		031F52191E32B7D8004F150B /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F52161E32B7D8004F150B /* KMeans.swift */; };
+		031F521A1E32B7D8004F150B /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F52171E32B7D8004F150B /* Vector.swift */; };
+		031F521C1E32BD83004F150B /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F521B1E32BD83004F150B /* Cluster.swift */; };
+		031F521E1E336B81004F150B /* ClusterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F521D1E336B81004F150B /* ClusterGenerator.swift */; };
 		03339DCB1E203E6E0046219E /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03339DCA1E203E6E0046219E /* PhotoCell.swift */; };
 		0353DBA61E329B5C00B857B6 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353DBA51E329B5C00B857B6 /* FilterType.swift */; };
 		0353DBA81E329EA700B857B6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353DBA71E329EA700B857B6 /* FilterViewController.swift */; };
@@ -23,6 +27,10 @@
 /* Begin PBXFileReference section */
 		0301C4F91E1AAAA300BA67FB /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		0301C4FB1E1AAABC00BA67FB /* ImportHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportHelper.swift; sourceTree = "<group>"; };
+		031F52161E32B7D8004F150B /* KMeans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
+		031F52171E32B7D8004F150B /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		031F521B1E32BD83004F150B /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
+		031F521D1E336B81004F150B /* ClusterGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		03339DCA1E203E6E0046219E /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		0353DBA51E329B5C00B857B6 /* FilterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		0353DBA71E329EA700B857B6 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		031F52141E32B7D8004F150B /* KMeans */ = {
+			isa = PBXGroup;
+			children = (
+				031F52161E32B7D8004F150B /* KMeans.swift */,
+				031F52171E32B7D8004F150B /* Vector.swift */,
+			);
+			path = KMeans;
+			sourceTree = "<group>";
+		};
 		03F624941E19B0D2005E6EBE = {
 			isa = PBXGroup;
 			children = (
@@ -71,7 +88,10 @@
 		03F6249F1E19B0D3005E6EBE /* PhotoCluster */ = {
 			isa = PBXGroup;
 			children = (
+				031F52141E32B7D8004F150B /* KMeans */,
 				03F624A01E19B0D3005E6EBE /* AppDelegate.swift */,
+				031F521B1E32BD83004F150B /* Cluster.swift */,
+				031F521D1E336B81004F150B /* ClusterGenerator.swift */,
 				0353DBA51E329B5C00B857B6 /* FilterType.swift */,
 				0353DBA71E329EA700B857B6 /* FilterViewController.swift */,
 				0301C4FB1E1AAABC00BA67FB /* ImportHelper.swift */,
@@ -227,12 +247,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0301C4FC1E1AAABC00BA67FB /* ImportHelper.swift in Sources */,
+				031F521A1E32B7D8004F150B /* Vector.swift in Sources */,
 				03339DCB1E203E6E0046219E /* PhotoCell.swift in Sources */,
 				0353DBA81E329EA700B857B6 /* FilterViewController.swift in Sources */,
 				0301C4FA1E1AAAA300BA67FB /* Photo.swift in Sources */,
+				031F52191E32B7D8004F150B /* KMeans.swift in Sources */,
+				031F521C1E32BD83004F150B /* Cluster.swift in Sources */,
 				03F624A31E19B0D3005E6EBE /* ViewController.swift in Sources */,
 				0353DBA61E329B5C00B857B6 /* FilterType.swift in Sources */,
 				03F624A11E19B0D3005E6EBE /* AppDelegate.swift in Sources */,
+				031F521E1E336B81004F150B /* ClusterGenerator.swift in Sources */,
 				03A6165F1E296D5000113753 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
