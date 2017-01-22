@@ -69,24 +69,17 @@ class ClusterGenerator {
     kmm.trainCenters(vectors, convergeDistance: convergeDistance)
     var newClusters = [Cluster]()
     for vectors in kmm.__classifications {
-      let photos = vectors.map({$0.obj as! Photo}).sorted(by: { (p1: Photo, p2: Photo) -> Bool in
-        return sort(p1, p2)
-      })
+      let photos = vectors.map({$0.obj as! Photo})
       if !photos.isEmpty {
-        let title = titleGenerator(photos)
-        let cluster = Cluster(title: title, photos: photos)
+        let cluster = Cluster(photos: photos.sorted(by: {$0.totalMinutesInDay() < $1.totalMinutesInDay()}))
+        cluster.customSortedPhotos = photos.sorted(by: {sort($0,$1)})
+        cluster.title = titleGenerator(cluster.customSortedPhotos)
         newClusters.append(cluster)
       }
     }
 
     newClusters = newClusters.sorted(by: { (c1: Cluster, c2: Cluster) -> Bool in
-      let photos1 = c1.photos.sorted(by: { (p1: Photo, p2: Photo) -> Bool in
-        return sort(p1, p2)
-      })
-      let photos2 = c2.photos.sorted(by: { (p1: Photo, p2: Photo) -> Bool in
-        return sort(p1, p2)
-      })
-      return sort(photos1.first!, photos2.first!)
+      return sort(c1.customSortedPhotos.first!, c2.customSortedPhotos.first!)
     })
 
     return newClusters

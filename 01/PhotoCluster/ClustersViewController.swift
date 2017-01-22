@@ -17,7 +17,7 @@ class ClustersViewController: UIViewController {
   let photos: [Photo]
   fileprivate var clusters = [Cluster]()
   fileprivate var collectionView: UICollectionView!
-  fileprivate var dummyCell = ClusterCell()
+  fileprivate var dummyCell = ClusterCell(dummy: true)
 
   init(clusterType: ClusterType, photos: [Photo]) {
     self.clusterType = clusterType
@@ -48,10 +48,23 @@ class ClustersViewController: UIViewController {
     self.collectionView.alwaysBounceVertical = true
     self.view.addSubview(self.collectionView)
 
-    let cg = ClusterGenerator()
-    cg.generateClusters(photos: self.photos, clusterType: self.clusterType) { (clusters: [Cluster]) -> (Void) in
-      self.clusters = clusters
+    self.delay(0.001) {
+      let cg = ClusterGenerator()
+      let start = Date()
+      cg.generateClusters(photos: self.photos, clusterType: self.clusterType) { (clusters: [Cluster]) -> (Void) in
+        print("Clustering:", start.timeIntervalSinceNow * -1)
+        self.clusters = clusters
+        self.collectionView.reloadData()
+      }
     }
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if !self.clusters.isEmpty {
+      return
+    }
+
   }
 }
 

@@ -46,6 +46,7 @@ class Photo: Object {
   dynamic var album: String?
   dynamic var containsText: Bool = false
   dynamic var containsFaces: Bool = false
+  dynamic var panorama: Bool = false
 
   dynamic var _type: Int = PhotoType.Normal.rawValue
   var type: PhotoType {

@@ -9,10 +9,10 @@
 import Foundation
 
 class Cluster {
-  var title: String
+  var title: String!
   var photos: [Photo]
-  init(title: String, photos: [Photo]) {
-    self.title = title
+  var customSortedPhotos = [Photo]()
+  init(photos: [Photo]) {
     self.photos = photos
   }
 }

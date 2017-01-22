@@ -17,10 +17,16 @@ class ClusterCell: UICollectionViewCell {
       self.reload()
     }
   }
+  var dummy = false
 
   private let titleLabel = UILabel()
   private var photoCollectionView: UICollectionView!
   fileprivate let numberOfPhotosPerRow = 5
+
+  convenience init(dummy: Bool) {
+    self.init(frame: CGRect.zero)
+    self.dummy = dummy
+  }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -56,8 +62,8 @@ class ClusterCell: UICollectionViewCell {
 
   private func reload() {
     self.titleLabel.text = self.cluster?.title
-    self.photoCollectionView.reloadData()
     self.layoutSubviews()
+    self.photoCollectionView.reloadData()
   }
 
   override func layoutSubviews() {
@@ -87,6 +93,7 @@ class ClusterCell: UICollectionViewCell {
 
 extension ClusterCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    if dummy { return 0 }
     return min(self.cluster?.photos.count ?? 0, 20)
   }
 

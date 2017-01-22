@@ -48,6 +48,7 @@ class ImportHelper {
       photo.longitude = location.coordinate.longitude
       photo.altitude = location.altitude
     }
+    print(asset.mediaSubtypes)
 
     let realm = try! Realm()
     try! realm.write {
