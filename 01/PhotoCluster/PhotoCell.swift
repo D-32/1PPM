@@ -42,9 +42,9 @@ class PhotoCell: UICollectionViewCell {
   }
 
   private func reload() {
-    if self.photo != nil {
-      self.oldId = self.photo!.id
-      self.getAssetThumbnail(asset: self.asset, size: self.imageView.frame.size.width, completion: { (image: UIImage?) -> (Void) in
+    if let photo = self.photo {
+      self.oldId = photo.id
+      photo.getAssetThumbnail(asset: self.asset, size: self.imageView.frame.size.width, cache: true, completion: { (image: UIImage?) -> (Void) in
         if self.photo?.id == self.oldId {
           self.imageView.image = image
         } else {
@@ -55,25 +55,5 @@ class PhotoCell: UICollectionViewCell {
       self.oldId = ""
       self.imageView.image = nil
     }
-  }
-
-  private func getAssetThumbnail(asset: PHAsset, size: CGFloat, completion:@escaping (_ image: UIImage?) -> (Void)) {
-    let retinaScale = UIScreen.main.scale
-    let retinaSquare = CGSize(width: size * retinaScale, height: size * retinaScale)//(size * retinaScale, size * retinaScale)
-    let cropSizeLength = min(asset.pixelWidth, asset.pixelHeight)
-    let square = CGRect(x:0, y: 0,width: CGFloat(cropSizeLength),height: CGFloat(cropSizeLength))
-    let cropRect = square.applying(CGAffineTransform(scaleX: 1.0/CGFloat(asset.pixelWidth), y: 1.0/CGFloat(asset.pixelHeight)))
-
-    let manager = PHImageManager.default()
-    let options = PHImageRequestOptions()
-
-    options.isSynchronous = false
-    options.deliveryMode = .highQualityFormat
-    options.resizeMode = .exact
-    options.normalizedCropRect = cropRect
-
-    manager.requestImage(for: asset, targetSize: retinaSquare, contentMode: .aspectFit, options: options, resultHandler: {(result, info)->Void in
-      completion(result)
-    })
   }
 }

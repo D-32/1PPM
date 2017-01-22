@@ -13,12 +13,24 @@ import RealmSwift
 class ViewController: UIViewController {
 
   private var collectionView: UICollectionView!
-  fileprivate var photos: Results<Photo>?
+  fileprivate var photos: [Photo]?
   fileprivate var assetCache = [String:PHAsset]()
+  private var filterItem: UIBarButtonItem!
+
+  init(photos: [Photo]? = nil) {
+    super.init(nibName: nil, bundle: nil)
+    self.photos = photos
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.view.backgroundColor = UIColor.white
+
+    self.title = "Photos"
 
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 2
@@ -31,7 +43,7 @@ class ViewController: UIViewController {
     self.collectionView.dataSource = self
     self.collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
     self.collectionView.backgroundColor = UIColor.white
-    self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+    self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     self.view.addSubview(self.collectionView)
 
@@ -41,27 +53,37 @@ class ViewController: UIViewController {
     statusBarUnderlay.backgroundColor = UIColor.white.withAlphaComponent(0.95)
     self.view.addSubview(statusBarUnderlay)
 
+    self.filterItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filterItemTapped))
+    self.updateFilterItem()
+    self.navigationItem.rightBarButtonItem = self.filterItem
 
-    let filterItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filterItemTapped))
-    self.navigationItem.rightBarButtonItem = filterItem
 
-    let nc = NotificationCenter.default
-    let queue = OperationQueue.main
-    nc.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: queue) { (n: Notification) in
+    if self.photos == nil {
+      // Only load new photos if we didn't provide any photos during init.
+      // This means this is the initial view controller.
+      let nc = NotificationCenter.default
+      let queue = OperationQueue.main
+      nc.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: queue) { (n: Notification) in
+        self.loadNewPhotos {
+          self.reload()
+        }
+      }
+
       self.loadNewPhotos {
         self.reload()
       }
-    }
-
-    self.loadNewPhotos {
-      self.reload()
     }
   }
 
   private func reload() {
     let realm = try! Realm()
-    self.photos = realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false)
+    self.photos = Array(realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false))
     self.collectionView.reloadData()
+    self.updateFilterItem()
+  }
+
+  private func updateFilterItem() {
+    self.filterItem.isEnabled = self.photos?.count ?? 0 > 10
   }
 
   func filterItemTapped() {
@@ -74,8 +96,8 @@ class ViewController: UIViewController {
     self.present(alert, animated: true, completion: nil)
   }
 
-  private func openFilterViewController(_ type: FilterType) {
-    let vc = FilterViewController(filterType: type)
+  private func openFilterViewController(_ type: ClusterType) {
+    let vc = ClustersViewController(clusterType: type, photos: self.photos ?? [])
     self.navigationController?.pushViewController(vc, animated: true)
   }
 }

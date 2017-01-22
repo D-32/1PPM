@@ -1,4 +1,7 @@
 PODS:
+  - CHTCollectionViewWaterfallLayout (0.9.5):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
   - LKAlertController (1.12.0)
   - Realm (1.1.0):
     - Realm/Headers (= 1.1.0)
@@ -7,14 +10,16 @@ PODS:
     - Realm (= 1.1.0)
 
 DEPENDENCIES:
+  - CHTCollectionViewWaterfallLayout (~> 0.9)
   - LKAlertController (~> 1.6)
   - RealmSwift (~> 1.0)
 
 SPEC CHECKSUMS:
+  CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   LKAlertController: 0e046d725fd9a7d2d04339fcbc6d1065e9fac199
   Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
   RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
 
-PODFILE CHECKSUM: a37464288a9801fff2c19e2cf9887351f081864a
+PODFILE CHECKSUM: 97460e2e495bb44885907f526de29cc66174e4d2
 
 COCOAPODS: 1.1.1

@@ -4,5 +4,6 @@ target 'PhotoCluster' do
 
   pod 'LKAlertController', '~> 1.6'
   pod 'RealmSwift', '~> 1.0'
+  pod 'CHTCollectionViewWaterfallLayout', '~> 0.9'
 
 end

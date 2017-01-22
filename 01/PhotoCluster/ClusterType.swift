@@ -1,5 +1,5 @@
 //
-//  FilterType.swift
+//  ClusterType.swift
 //  PhotoCluster
 //
 //  Created by Dylan Marriott on 20/01/17.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum FilterType {
+enum ClusterType {
   case time
 }

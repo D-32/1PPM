@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Photos
 
 enum PhotoType: Int {
   case Normal = 0
@@ -56,9 +57,11 @@ class Photo: Object {
     }
   }
 
+  var cachedThumbnail: UIImage?
+
 
   override static func ignoredProperties() -> [String] {
-    return ["type"]
+    return ["type", "cachedThumbnail"]
   }
 
   override class func primaryKey() -> String? {
@@ -67,5 +70,32 @@ class Photo: Object {
 
   func totalMinutesInDay() -> Int {
     return self.hour * 60 + self.minute
+  }
+
+  func getAssetThumbnail(asset: PHAsset, size: CGFloat, cache: Bool, completion:@escaping (_ image: UIImage?) -> (Void)) {
+    if let cachedThumbnail = self.cachedThumbnail {
+      completion(cachedThumbnail)
+      return
+    }
+    let retinaScale = UIScreen.main.scale
+    let retinaSquare = CGSize(width: size * retinaScale, height: size * retinaScale)//(size * retinaScale, size * retinaScale)
+    let cropSizeLength = min(asset.pixelWidth, asset.pixelHeight)
+    let square = CGRect(x:0, y: 0,width: CGFloat(cropSizeLength),height: CGFloat(cropSizeLength))
+    let cropRect = square.applying(CGAffineTransform(scaleX: 1.0/CGFloat(asset.pixelWidth), y: 1.0/CGFloat(asset.pixelHeight)))
+
+    let manager = PHImageManager.default()
+    let options = PHImageRequestOptions()
+
+    options.isSynchronous = false
+    options.deliveryMode = .highQualityFormat
+    options.resizeMode = .exact
+    options.normalizedCropRect = cropRect
+
+    manager.requestImage(for: asset, targetSize: retinaSquare, contentMode: .aspectFit, options: options, resultHandler: {(result, info)->Void in
+      if cache {
+        self.cachedThumbnail = result
+      }
+      completion(result)
+    })
   }
 }

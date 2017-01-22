@@ -11,12 +11,10 @@ import RealmSwift
 
 class ClusterGenerator {
 
-  func generateClusters(filterType: FilterType, completion: (_ clusters: [Cluster])->(Void)) {
-    if filterType == .time {
+  func generateClusters(photos: [Photo], clusterType: ClusterType, completion: (_ clusters: [Cluster])->(Void)) {
+    if clusterType == .time {
       var vectors = [Vector]()
 
-      let realm = try! Realm()
-      let photos = realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false)
       for photo in photos {
         var v = Vector([Double(photo.hour)])
         v.obj = photo
@@ -34,9 +32,11 @@ class ClusterGenerator {
           return p1.totalMinutesInDay() < p2.totalMinutesInDay()
         })
         if !photos.isEmpty {
-          let b = photos.first!
-          let e = photos.last!
-          let cluster = Cluster(title: "\(b.hour):00 - \(e.hour):00", photos: photos)
+          let s = photos.first!.hour
+          let e = photos.last!.hour + 1
+          let start = s < 10 ? "0\(s)" : "\(s)"
+          let end = e < 10 ? "0\(e)" : "\(e)"
+          let cluster = Cluster(title: "\(start):00 - \(end):00", photos: photos)
           newClusters.append(cluster)
         }
       }
