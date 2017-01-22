@@ -10,4 +10,5 @@ import Foundation
 
 enum ClusterType {
   case time
+  case altitude
 }

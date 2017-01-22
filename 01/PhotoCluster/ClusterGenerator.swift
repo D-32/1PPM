@@ -13,40 +13,82 @@ class ClusterGenerator {
 
   func generateClusters(photos: [Photo], clusterType: ClusterType, completion: (_ clusters: [Cluster])->(Void)) {
     if clusterType == .time {
-      var vectors = [Vector]()
-
-      for photo in photos {
-        var v = Vector([Double(photo.hour)])
-        v.obj = photo
-        vectors.append(v)
-      }
-
-      let numberOfClusters = 6
-      let convergeDistance = 20.0
-      let labels = Array(1...numberOfClusters).map({"Cluster #\($0)"})
-      let kmm = KMeans<String>(labels: labels)
-      kmm.trainCenters(vectors, convergeDistance: convergeDistance)
-      var newClusters = [Cluster]()
-      for vectors in kmm.__classifications {
-        let photos = vectors.map({$0.obj as! Photo}).sorted(by: { (p1: Photo, p2: Photo) -> Bool in
-          return p1.totalMinutesInDay() < p2.totalMinutesInDay()
-        })
-        if !photos.isEmpty {
-          let s = photos.first!.hour
-          let e = photos.last!.hour + 1
-          let start = s < 10 ? "0\(s)" : "\(s)"
-          let end = e < 10 ? "0\(e)" : "\(e)"
-          let cluster = Cluster(title: "\(start):00 - \(end):00", photos: photos)
-          newClusters.append(cluster)
-        }
-      }
-      newClusters = newClusters.sorted(by: { (c1: Cluster, c2: Cluster) -> Bool in
-        return c1.photos.first!.hour < c2.photos.first!.hour
+      let clusters = self.kmm(photos: photos,
+                              inputs: photos.map{ [Double($0.hour)] },
+                                sort:
+      { (photo1: Photo, photo2: Photo) -> (Bool) in
+          return photo1.totalMinutesInDay() < photo2.totalMinutesInDay()
+      },
+                      titleGenerator:
+      { (photos: [Photo]) -> (String) in
+        let s = photos.first!.hour
+        let e = photos.last!.hour + 1
+        let start = s < 10 ? "0\(s)" : "\(s)"
+        let end = e < 10 ? "0\(e)" : "\(e)"
+        return "\(start):00 - \(end):00"
       })
-
-      completion(newClusters)
+      completion(clusters)
+    } else if clusterType == .altitude {
+      let clusters = self.kmm(photos: photos,
+                              inputs: photos.map{ [$0.altitude] },
+                              sort:
+        { (photo1: Photo, photo2: Photo) -> (Bool) in
+          return photo1.altitude < photo2.altitude
+        },
+                              titleGenerator:
+        { (photos: [Photo]) -> (String) in
+          let s = photos.first!.altitude
+          let e = photos.last!.altitude
+          if s == e {
+            return "\(Int(s)) Meters"
+          } else {
+            return "\(Int(s)) - \(Int(e)) Meters"
+          }
+      })
+      completion(clusters)
     } else {
       completion([])
     }
+  }
+
+  private func kmm(photos: [Photo], inputs: [[Double]], sort: ((_ photo1: Photo, _ photo2: Photo)->(Bool)), titleGenerator:(_ photos: [Photo])->(String)) -> [Cluster] {
+    assert(photos.count == inputs.count)
+
+    var vectors = [Vector]()
+
+    for (i, photo) in photos.enumerated() {
+      var v = Vector(inputs[i])
+      v.obj = photo
+      vectors.append(v)
+    }
+
+    let numberOfClusters = 6
+    let convergeDistance = 20.0
+    let labels = Array(1...numberOfClusters).map({"Cluster #\($0)"})
+    let kmm = KMeans<String>(labels: labels)
+    kmm.trainCenters(vectors, convergeDistance: convergeDistance)
+    var newClusters = [Cluster]()
+    for vectors in kmm.__classifications {
+      let photos = vectors.map({$0.obj as! Photo}).sorted(by: { (p1: Photo, p2: Photo) -> Bool in
+        return sort(p1, p2)
+      })
+      if !photos.isEmpty {
+        let title = titleGenerator(photos)
+        let cluster = Cluster(title: title, photos: photos)
+        newClusters.append(cluster)
+      }
+    }
+
+    newClusters = newClusters.sorted(by: { (c1: Cluster, c2: Cluster) -> Bool in
+      let photos1 = c1.photos.sorted(by: { (p1: Photo, p2: Photo) -> Bool in
+        return sort(p1, p2)
+      })
+      let photos2 = c2.photos.sorted(by: { (p1: Photo, p2: Photo) -> Bool in
+        return sort(p1, p2)
+      })
+      return sort(photos1.first!, photos2.first!)
+    })
+
+    return newClusters
   }
 }

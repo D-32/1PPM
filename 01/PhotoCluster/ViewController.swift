@@ -91,6 +91,10 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "🕑 Time", style: .default, handler: { _ in
       self.openFilterViewController(.time)
     }))
+    alert.addAction(UIAlertAction(title: "🗻 Altitude", style: .default, handler: { _ in
+      self.openFilterViewController(.altitude)
+    }))
+
 
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     self.present(alert, animated: true, completion: nil)

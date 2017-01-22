@@ -43,6 +43,11 @@ class ImportHelper {
     let photo = Photo()
     photo.assetId = asset.localIdentifier
     photo.creationDate = asset.creationDate ?? Date()
+    if let location = asset.location {
+      photo.latitude = location.coordinate.latitude
+      photo.longitude = location.coordinate.longitude
+      photo.altitude = location.altitude
+    }
 
     let realm = try! Realm()
     try! realm.write {
