@@ -103,6 +103,9 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "🎨 Color", style: .default, handler: { _ in
       self.openFilterViewController(.color)
     }))
+    alert.addAction(UIAlertAction(title: "💡 Brightness", style: .default, handler: { _ in
+      self.openFilterViewController(.brightness)
+    }))
 
 
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -59,6 +59,15 @@ class BackgroundProcessor: NSObject {
         metaData.red = Double(comps[0])
         metaData.green = Double(comps[1])
         metaData.blue = Double(comps[2])
+
+
+        var hue : CGFloat = 0
+        var saturation : CGFloat = 0
+        var brightness : CGFloat = 0
+        var alpha : CGFloat = 0
+        if avgColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
+          metaData.brightness = Double(brightness)
+        }
       }
       completion()
     })

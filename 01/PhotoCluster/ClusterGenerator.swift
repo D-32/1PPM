@@ -28,8 +28,10 @@ class ClusterGenerator {
       }
     } else if clusterType == .color {
       completion(self.clusterByColor(photos))
+    } else if clusterType == .brightness {
+      completion(self.clusterByBrightness(photos))
     } else {
-      print("Cluster type not handled: ", clusterType)
+      assert(false, "Cluster type not handled: \(clusterType)")
       completion([])
     }
   }
@@ -150,6 +152,24 @@ class ClusterGenerator {
     })
     for cluster in clusters {
       let color = UIColor(red: CGFloat(cluster.center[0]), green: CGFloat(cluster.center[1]), blue: CGFloat(cluster.center[2]), alpha: 1.0)
+      cluster.color = color
+    }
+    return clusters
+  }
+
+  private func clusterByBrightness(_ photos: [Photo]) -> [Cluster] {
+    let clusters = self.kmm(photos: photos,
+                            inputs: photos.map{ [$0.metaData!.brightness] },
+                            sort:
+      { (photo1: Photo, photo2: Photo) -> (Bool) in
+        return photo1.id < photo2.id
+    },
+                            titleGenerator:
+      { (photos: [Photo]) -> (String) in
+        return ""
+    })
+    for cluster in clusters {
+      let color = UIColor(hue: 0, saturation: 0, brightness: CGFloat(cluster.center[0]), alpha: 1.0)
       cluster.color = color
     }
     return clusters

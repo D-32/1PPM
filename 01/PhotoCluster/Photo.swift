@@ -109,4 +109,5 @@ class PhotoMetaData: Object {
   dynamic var red: Double = 0
   dynamic var green: Double = 0
   dynamic var blue: Double = 0
+  dynamic var brightness: Double = 0
 }

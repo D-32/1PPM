@@ -14,4 +14,5 @@ enum ClusterType {
   case dayOfWeek
   case location
   case color
+  case brightness
 }
