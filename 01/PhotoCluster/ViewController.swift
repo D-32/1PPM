@@ -100,6 +100,9 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "📅 Day of Week", style: .default, handler: { _ in
       self.openFilterViewController(.dayOfWeek)
     }))
+    alert.addAction(UIAlertAction(title: "🎨 Color", style: .default, handler: { _ in
+      self.openFilterViewController(.color)
+    }))
 
 
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

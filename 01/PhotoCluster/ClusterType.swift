@@ -13,4 +13,5 @@ enum ClusterType {
   case altitude
   case dayOfWeek
   case location
+  case color
 }

@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import RealmSwift
 import CoreLocation
+import Photos
+import CoreImage
 
 class BackgroundProcessor: NSObject {
 
@@ -39,12 +41,26 @@ class BackgroundProcessor: NSObject {
 
   private func loadMetaData(photo: Photo, completion:@escaping (Void)->(Void)) {
     let metaData = PhotoMetaData()
-
-    let realm = try! Realm()
-    try! realm.write {
-      photo.metaData = metaData
+    self.loadImage(photo: photo, metaData: metaData) {
+      let realm = try! Realm()
+      try! realm.write {
+        photo.metaData = metaData
+      }
+      completion()
     }
-    completion()
   }
 
+  private func loadImage(photo: Photo, metaData: PhotoMetaData, completion:@escaping (Void)->(Void)) {
+    let asset = PHAsset.fetchAssets(withLocalIdentifiers: [photo.assetId], options: nil).firstObject!
+    photo.getAssetThumbnail(asset: asset, size: 320, cache: false, completion: { (_image: UIImage?) -> (Void) in
+      if let image = _image {
+        let avgColor = image.areaAverage()
+        let comps = avgColor.cgColor.components!
+        metaData.red = Double(comps[0])
+        metaData.green = Double(comps[1])
+        metaData.blue = Double(comps[2])
+      }
+      completion()
+    })
+  }
 }

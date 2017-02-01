@@ -26,6 +26,8 @@ class ClusterGenerator {
       self.clusterByLocation(photos) {
         completion($0)
       }
+    } else if clusterType == .color {
+      completion(self.clusterByColor(photos))
     } else {
       print("Cluster type not handled: ", clusterType)
       completion([])
@@ -129,10 +131,28 @@ class ClusterGenerator {
         }
         processed += 1
         if processed == toProcess.count {
-          completion(clusters.sorted(by: { return $0.title < $1.title }))
+          completion(clusters.sorted(by: { return $0.title! < $1.title! }))
         }
       }
     }
+  }
+
+  private func clusterByColor(_ photos: [Photo]) -> [Cluster] {
+    let clusters = self.kmm(photos: photos,
+                            inputs: photos.map{ [$0.metaData!.red, $0.metaData!.green, $0.metaData!.blue] },
+                            sort:
+      { (photo1: Photo, photo2: Photo) -> (Bool) in
+        return photo1.id < photo2.id
+    },
+                            titleGenerator:
+      { (photos: [Photo]) -> (String) in
+        return ""
+    })
+    for cluster in clusters {
+      let color = UIColor(red: CGFloat(cluster.center[0]), green: CGFloat(cluster.center[1]), blue: CGFloat(cluster.center[2]), alpha: 1.0)
+      cluster.color = color
+    }
+    return clusters
   }
 
   private func kmm(photos: [Photo], inputs: [[Double]], sort: ((_ photo1: Photo, _ photo2: Photo)->(Bool)), titleGenerator:(_ photos: [Photo])->(String)) -> [Cluster] {

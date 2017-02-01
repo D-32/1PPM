@@ -20,6 +20,7 @@ class ClusterCell: UICollectionViewCell {
   var dummy = false
 
   private let titleLabel = UILabel()
+  private let colorLabel = UIView()
   private var photoCollectionView: UICollectionView!
   fileprivate let numberOfPhotosPerRow = 5
 
@@ -40,6 +41,9 @@ class ClusterCell: UICollectionViewCell {
     self.titleLabel.textAlignment = .center
     self.titleLabel.numberOfLines = 0
     self.addSubview(self.titleLabel)
+
+    self.colorLabel.layer.cornerRadius = 10
+    self.addSubview(self.colorLabel)
 
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 0
@@ -62,6 +66,7 @@ class ClusterCell: UICollectionViewCell {
 
   private func reload() {
     self.titleLabel.text = self.cluster?.title
+    self.titleLabel.backgroundColor = self.cluster?.color ?? UIColor.clear
     self.layoutSubviews()
     self.photoCollectionView.reloadData()
   }
@@ -72,13 +77,23 @@ class ClusterCell: UICollectionViewCell {
     self.titleLabel.frame.size.width = titleWidth
     self.titleLabel.sizeToFit()
     self.titleLabel.frame = CGRect(x: 20, y: 20, width: titleWidth, height: self.titleLabel.frame.height)
+    var end = titleLabel.frame.maxY
+
+    if let color = self.cluster?.color {
+      self.colorLabel.frame.origin = CGPoint(x: self.frame.width / 2 - 10, y: 20)
+      self.colorLabel.frame.size = CGSize(width: 20, height: 20)
+      self.colorLabel.backgroundColor = color
+      end = self.colorLabel.frame.maxY
+    } else {
+      self.colorLabel.frame = CGRect.zero
+    }
 
     let items = min(self.cluster?.photos.count ?? 0, 20)
     var rows = Int(items / numberOfPhotosPerRow)
     if items % numberOfPhotosPerRow != 0 {
       rows += 1
     }
-    self.photoCollectionView.frame = CGRect(x: 0, y: titleLabel.frame.maxY + 20, width: self.frame.width, height: self.previewPhotoSize() * CGFloat(rows))
+    self.photoCollectionView.frame = CGRect(x: 0, y: end + 20, width: self.frame.width, height: self.previewPhotoSize() * CGFloat(rows))
   }
 
   override func sizeThatFits(_ size: CGSize) -> CGSize {

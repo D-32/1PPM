@@ -51,10 +51,13 @@ class ClustersViewController: UIViewController {
     self.delay(0.001) {
       let cg = ClusterGenerator()
       let start = Date()
-      cg.generateClusters(photos: self.photos, clusterType: self.clusterType) { (clusters: [Cluster]) -> (Void) in
-        print("Clustering:", start.timeIntervalSinceNow * -1)
-        self.clusters = clusters
-        self.collectionView.reloadData()
+      let photosToCluster = self.photos.filter { $0.metaData != nil }
+      if !photosToCluster.isEmpty {
+        cg.generateClusters(photos: photosToCluster, clusterType: self.clusterType) { (clusters: [Cluster]) -> (Void) in
+          print("Clustering:", start.timeIntervalSinceNow * -1)
+          self.clusters = clusters
+          self.collectionView.reloadData()
+        }
       }
     }
   }

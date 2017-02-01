@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 class Cluster {
-  var title: String!
+  var title: String?
+  var color: UIColor?
   var photos: [Photo]
   var type: ClusterType!
   var center: [Double]!

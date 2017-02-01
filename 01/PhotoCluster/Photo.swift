@@ -106,4 +106,7 @@ class Photo: Object {
 class PhotoMetaData: Object {
   dynamic var city: String?
   dynamic var country: String?
+  dynamic var red: Double = 0
+  dynamic var green: Double = 0
+  dynamic var blue: Double = 0
 }
