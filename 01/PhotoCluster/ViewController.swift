@@ -91,6 +91,9 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "🕑 Time", style: .default, handler: { _ in
       self.openFilterViewController(.time)
     }))
+    alert.addAction(UIAlertAction(title: "🗺 Location", style: .default, handler: { _ in
+      self.openFilterViewController(.location)
+    }))
     alert.addAction(UIAlertAction(title: "🗻 Altitude", style: .default, handler: { _ in
       self.openFilterViewController(.altitude)
     }))
@@ -152,6 +155,7 @@ extension ViewController {
 
         let ih = ImportHelper()
         ih.importAssets(ids) {
+          BackgroundProcessor.shared.start()
           completion()
         }
       } else {

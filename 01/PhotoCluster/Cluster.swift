@@ -11,6 +11,9 @@ import Foundation
 class Cluster {
   var title: String!
   var photos: [Photo]
+  var type: ClusterType!
+  var center: [Double]!
+  var avgSizeToCenter: Double = 0
   var customSortedPhotos = [Photo]()
   init(photos: [Photo]) {
     self.photos = photos
