@@ -17,6 +17,7 @@
 		03339DCB1E203E6E0046219E /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03339DCA1E203E6E0046219E /* PhotoCell.swift */; };
 		0353DBA61E329B5C00B857B6 /* ClusterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353DBA51E329B5C00B857B6 /* ClusterType.swift */; };
 		0353DBA81E329EA700B857B6 /* ClustersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0353DBA71E329EA700B857B6 /* ClustersViewController.swift */; };
+		036B5A2B1E41262800E75185 /* BackgroundProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036B5A2A1E41262800E75185 /* BackgroundProcessor.swift */; };
 		03A6165F1E296D5000113753 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6165E1E296D5000113753 /* Utils.swift */; };
 		03F624A11E19B0D3005E6EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F624A01E19B0D3005E6EBE /* AppDelegate.swift */; };
 		03F624A31E19B0D3005E6EBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F624A21E19B0D3005E6EBE /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 		03339DCA1E203E6E0046219E /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		0353DBA51E329B5C00B857B6 /* ClusterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterType.swift; sourceTree = "<group>"; };
 		0353DBA71E329EA700B857B6 /* ClustersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClustersViewController.swift; sourceTree = "<group>"; };
+		036B5A2A1E41262800E75185 /* BackgroundProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundProcessor.swift; sourceTree = "<group>"; };
 		03A6165E1E296D5000113753 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		03F6249D1E19B0D3005E6EBE /* PhotoCluster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoCluster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F624A01E19B0D3005E6EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				031F52141E32B7D8004F150B /* KMeans */,
 				03F624A01E19B0D3005E6EBE /* AppDelegate.swift */,
+				036B5A2A1E41262800E75185 /* BackgroundProcessor.swift */,
 				031F521B1E32BD83004F150B /* Cluster.swift */,
 				031F521F1E337135004F150B /* ClusterCell.swift */,
 				031F521D1E336B81004F150B /* ClusterGenerator.swift */,
@@ -251,6 +254,7 @@
 			files = (
 				0301C4FC1E1AAABC00BA67FB /* ImportHelper.swift in Sources */,
 				031F521A1E32B7D8004F150B /* Vector.swift in Sources */,
+				036B5A2B1E41262800E75185 /* BackgroundProcessor.swift in Sources */,
 				03339DCB1E203E6E0046219E /* PhotoCell.swift in Sources */,
 				0353DBA81E329EA700B857B6 /* ClustersViewController.swift in Sources */,
 				0301C4FA1E1AAAA300BA67FB /* Photo.swift in Sources */,

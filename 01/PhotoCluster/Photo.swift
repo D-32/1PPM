@@ -48,6 +48,8 @@ class Photo: Object {
   dynamic var containsFaces: Bool = false
   dynamic var panorama: Bool = false
 
+  dynamic var metaData: PhotoMetaData?
+
   dynamic var _type: Int = PhotoType.Normal.rawValue
   var type: PhotoType {
     get {
@@ -99,4 +101,9 @@ class Photo: Object {
       completion(result)
     })
   }
+}
+
+class PhotoMetaData: Object {
+  dynamic var city: String?
+  dynamic var country: String?
 }
