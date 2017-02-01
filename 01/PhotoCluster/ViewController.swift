@@ -15,7 +15,7 @@ class ViewController: UIViewController {
   private var collectionView: UICollectionView!
   fileprivate var photos: [Photo]?
   fileprivate var assetCache = [String:PHAsset]()
-  private var filterItem: UIBarButtonItem!
+  private var clusterItem: UIBarButtonItem!
 
   init(photos: [Photo]? = nil) {
     super.init(nibName: nil, bundle: nil)
@@ -53,9 +53,9 @@ class ViewController: UIViewController {
     statusBarUnderlay.backgroundColor = UIColor.white.withAlphaComponent(0.95)
     self.view.addSubview(statusBarUnderlay)
 
-    self.filterItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filterItemTapped))
-    self.updateFilterItem()
-    self.navigationItem.rightBarButtonItem = self.filterItem
+    self.clusterItem = UIBarButtonItem(title: "Cluster", style: .plain, target: self, action: #selector(clusterItemTapped))
+    self.updateclusterItem()
+    self.navigationItem.rightBarButtonItem = self.clusterItem
 
 
     if self.photos == nil {
@@ -79,32 +79,32 @@ class ViewController: UIViewController {
     let realm = try! Realm()
     self.photos = Array(realm.objects(Photo.self).sorted(byProperty: "creationDate", ascending: false))
     self.collectionView.reloadData()
-    self.updateFilterItem()
+    self.updateclusterItem()
   }
 
-  private func updateFilterItem() {
-    self.filterItem.isEnabled = self.photos?.count ?? 0 > 10
+  private func updateclusterItem() {
+    self.clusterItem.isEnabled = self.photos?.count ?? 0 > 10
   }
 
-  func filterItemTapped() {
-    let alert = UIAlertController(title: "Choose Filter Type", message: nil, preferredStyle: .actionSheet)
+  func clusterItemTapped() {
+    let alert = UIAlertController(title: "Choose Cluster Type", message: nil, preferredStyle: .actionSheet)
     alert.addAction(UIAlertAction(title: "🕑 Time", style: .default, handler: { _ in
-      self.openFilterViewController(.time)
+      self.openClusterViewController(.time)
     }))
     alert.addAction(UIAlertAction(title: "🗺 Location", style: .default, handler: { _ in
-      self.openFilterViewController(.location)
+      self.openClusterViewController(.location)
     }))
     alert.addAction(UIAlertAction(title: "🗻 Altitude", style: .default, handler: { _ in
-      self.openFilterViewController(.altitude)
+      self.openClusterViewController(.altitude)
     }))
     alert.addAction(UIAlertAction(title: "📅 Day of Week", style: .default, handler: { _ in
-      self.openFilterViewController(.dayOfWeek)
+      self.openClusterViewController(.dayOfWeek)
     }))
     alert.addAction(UIAlertAction(title: "🎨 Color", style: .default, handler: { _ in
-      self.openFilterViewController(.color)
+      self.openClusterViewController(.color)
     }))
     alert.addAction(UIAlertAction(title: "💡 Brightness", style: .default, handler: { _ in
-      self.openFilterViewController(.brightness)
+      self.openClusterViewController(.brightness)
     }))
 
 
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
     self.present(alert, animated: true, completion: nil)
   }
 
-  private func openFilterViewController(_ type: ClusterType) {
+  private func openClusterViewController(_ type: ClusterType) {
     let vc = ClustersViewController(clusterType: type, photos: self.photos ?? [])
     self.navigationController?.pushViewController(vc, animated: true)
   }
