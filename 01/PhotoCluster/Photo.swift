@@ -43,11 +43,7 @@ class Photo: Object {
   dynamic var longitude: Double = 0.0
   dynamic var altitude: Double = 0.0
 
-  dynamic var album: String?
-  dynamic var containsText: Bool = false
-  dynamic var containsFaces: Bool = false
-  dynamic var panorama: Bool = false
-
+  dynamic var screenshot: Bool = false
   dynamic var metaData: PhotoMetaData?
 
   dynamic var _type: Int = PhotoType.Normal.rawValue
@@ -104,10 +100,10 @@ class Photo: Object {
 }
 
 class PhotoMetaData: Object {
-  dynamic var city: String?
-  dynamic var country: String?
   dynamic var red: Double = 0
   dynamic var green: Double = 0
   dynamic var blue: Double = 0
   dynamic var brightness: Double = 0
+  dynamic var faces: Int = 0
+  dynamic var texts: Int = 0
 }
