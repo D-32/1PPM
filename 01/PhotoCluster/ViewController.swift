@@ -106,6 +106,9 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "💡 Brightness", style: .default, handler: { _ in
       self.openClusterViewController(.brightness)
     }))
+    alert.addAction(UIAlertAction(title: "🤖 Type / Features", style: .default, handler: { _ in
+      self.openClusterViewController(.feature)
+    }))
 
 
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

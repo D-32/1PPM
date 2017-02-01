@@ -30,6 +30,8 @@ class ClusterGenerator {
       completion(self.clusterByColor(photos))
     } else if clusterType == .brightness {
       completion(self.clusterByBrightness(photos))
+    } else if clusterType == .feature {
+      completion(self.clusterByFeature(photos))
     } else {
       assert(false, "Cluster type not handled: \(clusterType)")
       completion([])
@@ -173,6 +175,31 @@ class ClusterGenerator {
       cluster.color = color
     }
     return clusters
+  }
+
+  private func clusterByFeature(_ photos: [Photo]) -> [Cluster] {
+    var titles = ["Faces", "Texts", "Screenshots", "Panoramas"]
+    var clusters = [Cluster]()
+    for i in 0...3 {
+      let c = Cluster(photos: [])
+      c.title = titles[i]
+      clusters.append(c)
+    }
+    for photo in photos {
+      if (photo.metaData?.faces ?? 0) > 0 {
+        clusters[0].photos.append(photo)
+      }
+      if (photo.metaData?.texts ?? 0) > 0 {
+        clusters[1].photos.append(photo)
+      }
+      if photo.screenshot {
+        clusters[2].photos.append(photo)
+      }
+      if photo.panorama {
+        clusters[3].photos.append(photo)
+      }
+    }
+    return clusters.filter({!$0.photos.isEmpty})
   }
 
   private func kmm(photos: [Photo], inputs: [[Double]], sort: ((_ photo1: Photo, _ photo2: Photo)->(Bool)), titleGenerator:(_ photos: [Photo])->(String)) -> [Cluster] {

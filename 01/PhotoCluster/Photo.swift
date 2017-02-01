@@ -44,6 +44,7 @@ class Photo: Object {
   dynamic var altitude: Double = 0.0
 
   dynamic var screenshot: Bool = false
+  dynamic var panorama: Bool = false
   dynamic var metaData: PhotoMetaData?
 
   dynamic var _type: Int = PhotoType.Normal.rawValue

@@ -49,6 +49,7 @@ class ImportHelper {
       photo.altitude = location.altitude
     }
     photo.screenshot = asset.mediaSubtypes == .photoScreenshot
+    photo.panorama = asset.mediaSubtypes == .photoPanorama
 
     let realm = try! Realm()
     try! realm.write {

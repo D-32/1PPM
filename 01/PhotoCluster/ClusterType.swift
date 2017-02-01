@@ -15,4 +15,5 @@ enum ClusterType {
   case location
   case color
   case brightness
+  case feature
 }
