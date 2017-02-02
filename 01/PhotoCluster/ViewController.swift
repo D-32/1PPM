@@ -41,6 +41,7 @@ class ViewController: UIViewController {
 
     self.collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
     self.collectionView.dataSource = self
+    self.collectionView.delegate = self
     self.collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
     self.collectionView.backgroundColor = UIColor.white
     self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -91,14 +92,14 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "🕑 Time", style: .default, handler: { _ in
       self.openClusterViewController(.time)
     }))
+    alert.addAction(UIAlertAction(title: "📅 Day of Week", style: .default, handler: { _ in
+      self.openClusterViewController(.dayOfWeek)
+    }))
     alert.addAction(UIAlertAction(title: "🗺 Location", style: .default, handler: { _ in
       self.openClusterViewController(.location)
     }))
     alert.addAction(UIAlertAction(title: "🗻 Altitude", style: .default, handler: { _ in
       self.openClusterViewController(.altitude)
-    }))
-    alert.addAction(UIAlertAction(title: "📅 Day of Week", style: .default, handler: { _ in
-      self.openClusterViewController(.dayOfWeek)
     }))
     alert.addAction(UIAlertAction(title: "🎨 Color", style: .default, handler: { _ in
       self.openClusterViewController(.color)
@@ -122,7 +123,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: CollectionView
-extension ViewController: UICollectionViewDataSource {
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.photos?.count ?? 0
   }
@@ -138,6 +139,14 @@ extension ViewController: UICollectionViewDataSource {
     cell.asset = asset
     cell.photo = photo
     return cell
+  }
+
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    collectionView.deselectItem(at: indexPath, animated: true)
+    let vc = GalleryViewController()
+    vc.photos = self.photos!
+    vc.currentIndex = indexPath.row
+    self.present(vc, animated: true, completion: nil)
   }
 }
 

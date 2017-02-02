@@ -73,7 +73,7 @@ class Photo: Object {
   }
 
   func getAssetThumbnail(asset: PHAsset, size: CGFloat, cache: Bool, completion:@escaping (_ image: UIImage?) -> (Void)) {
-    if let cachedThumbnail = self.cachedThumbnail {
+    if self.cachedThumbnail != nil && cache {
       completion(cachedThumbnail)
       return
     }
