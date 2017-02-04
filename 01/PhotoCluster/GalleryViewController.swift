@@ -33,12 +33,12 @@ class GalleryViewController: UIViewController {
     self.pageController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 0)
     self.pageController.setViewControllers([startVC], direction: .forward, animated: false, completion: nil)
 
-    let buttonBg = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80))
+    let buttonBg = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70))
     buttonBg.backgroundColor = UIColor.black.withAlphaComponent(0.6)
     self.view.addSubview(buttonBg)
 
     let backButton = self.buttonWithImage("back", width: 66)
-    backButton.frame.origin.y = 30
+    backButton.frame.origin.y = 20
     backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     self.view.addSubview(backButton)
 
