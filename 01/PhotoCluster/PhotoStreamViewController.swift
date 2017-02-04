@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PhotoStreamViewController.swift
 //  PhotoCluster
 //
 //  Created by Dylan Marriott on 01/01/17.
@@ -11,7 +11,7 @@ import Photos
 import RealmSwift
 import BubbleTransition
 
-class ViewController: UIViewController {
+class PhotoStreamViewController: UIViewController {
 
   fileprivate var collectionView: UICollectionView!
   fileprivate var photos: [Photo]?
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: CollectionView
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PhotoStreamViewController: UICollectionViewDataSource, UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.photos?.count ?? 0
   }
@@ -161,7 +161,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
 
 // MARK: Photos
-extension ViewController {
+extension PhotoStreamViewController {
   fileprivate func loadNewPhotos(_ completion:@escaping (Void)->(Void)) {
     self.checkAuthorisation { (success: Bool) -> (Void) in
       if (success) {
@@ -205,7 +205,7 @@ extension ViewController {
 }
 
 // MARK: Transition
-extension ViewController: UIViewControllerTransitioningDelegate {
+extension PhotoStreamViewController: UIViewControllerTransitioningDelegate {
   public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     transition.transitionMode = .present
     transition.startingPoint = self.transitionStartingPoint
@@ -231,7 +231,7 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 }
 
 // MARK: Peek & Pop
-extension ViewController: UIViewControllerPreviewingDelegate {
+extension PhotoStreamViewController: UIViewControllerPreviewingDelegate {
   func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
     guard let indexPath = self.collectionView.indexPathForItem(at: location) else { return nil }
     guard let cell = self.collectionView.cellForItem(at: indexPath) else { return nil }

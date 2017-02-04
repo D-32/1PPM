@@ -100,7 +100,7 @@ class ClustersViewController: UIViewController {
   func openItemTapped() {
     self.navigationItem.leftBarButtonItem = nil
     self.navigationItem.rightBarButtonItem = selectItem
-    let vc = ViewController(photos: self.selectedClusters().flatMap({$0.photos}))
+    let vc = PhotoStreamViewController(photos: self.selectedClusters().flatMap({$0.photos}))
     self.navigationController?.pushViewController(vc, animated: true)
     for model in cellModels {
       model.selected = true
@@ -143,7 +143,7 @@ extension ClustersViewController: UICollectionViewDataSource, CHTCollectionViewD
       model.selected = !model.selected
       self.updateOpenItem()
     } else {
-      let vc = ViewController(photos: model.cluster.photos)
+      let vc = PhotoStreamViewController(photos: model.cluster.photos)
       self.navigationController?.pushViewController(vc, animated: true)
     }
   }

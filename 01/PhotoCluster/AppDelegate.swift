@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window?.backgroundColor = UIColor.white
     self.window?.makeKeyAndVisible()
 
-    let vc = ViewController()
+    let vc = PhotoStreamViewController()
     let nc = UINavigationController(rootViewController: vc)
     self.window?.rootViewController = nc
 

@@ -22,7 +22,7 @@
 		038638FD1E435510003D7D6A /* GalleryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038638FC1E435510003D7D6A /* GalleryDetailViewController.swift */; };
 		03A6165F1E296D5000113753 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6165E1E296D5000113753 /* Utils.swift */; };
 		03F624A11E19B0D3005E6EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F624A01E19B0D3005E6EBE /* AppDelegate.swift */; };
-		03F624A31E19B0D3005E6EBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F624A21E19B0D3005E6EBE /* ViewController.swift */; };
+		03F624A31E19B0D3005E6EBE /* PhotoStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F624A21E19B0D3005E6EBE /* PhotoStreamViewController.swift */; };
 		03F624A81E19B0D3005E6EBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03F624A71E19B0D3005E6EBE /* Assets.xcassets */; };
 		03F624AB1E19B0D3005E6EBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F624A91E19B0D3005E6EBE /* LaunchScreen.storyboard */; };
 		C8F7DCD9E80FDD45464307DA /* Pods_PhotoCluster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9AC0D0064A1933730A7B0C /* Pods_PhotoCluster.framework */; };
@@ -45,7 +45,7 @@
 		03A6165E1E296D5000113753 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		03F6249D1E19B0D3005E6EBE /* PhotoCluster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoCluster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F624A01E19B0D3005E6EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		03F624A21E19B0D3005E6EBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		03F624A21E19B0D3005E6EBE /* PhotoStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStreamViewController.swift; sourceTree = "<group>"; };
 		03F624A71E19B0D3005E6EBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03F624AA1E19B0D3005E6EBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03F624AC1E19B0D3005E6EBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,8 +109,8 @@
 				0301C4FB1E1AAABC00BA67FB /* ImportHelper.swift */,
 				0301C4F91E1AAAA300BA67FB /* Photo.swift */,
 				03339DCA1E203E6E0046219E /* PhotoCell.swift */,
+				03F624A21E19B0D3005E6EBE /* PhotoStreamViewController.swift */,
 				03A6165E1E296D5000113753 /* Utils.swift */,
-				03F624A21E19B0D3005E6EBE /* ViewController.swift */,
 				03F624A71E19B0D3005E6EBE /* Assets.xcassets */,
 				03F624A91E19B0D3005E6EBE /* LaunchScreen.storyboard */,
 				03F624AC1E19B0D3005E6EBE /* Info.plist */,
@@ -266,7 +266,7 @@
 				0301C4FA1E1AAAA300BA67FB /* Photo.swift in Sources */,
 				031F52191E32B7D8004F150B /* KMeans.swift in Sources */,
 				031F521C1E32BD83004F150B /* Cluster.swift in Sources */,
-				03F624A31E19B0D3005E6EBE /* ViewController.swift in Sources */,
+				03F624A31E19B0D3005E6EBE /* PhotoStreamViewController.swift in Sources */,
 				0353DBA61E329B5C00B857B6 /* ClusterType.swift in Sources */,
 				038638FD1E435510003D7D6A /* GalleryDetailViewController.swift in Sources */,
 				03F624A11E19B0D3005E6EBE /* AppDelegate.swift in Sources */,
