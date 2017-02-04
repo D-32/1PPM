@@ -10,10 +10,23 @@ import Foundation
 import UIKit
 import Photos
 
+class ClusterCellModel: NSObject {
+  dynamic var selected = true
+  let cluster: Cluster
+  init(cluster: Cluster) {
+    self.cluster = cluster
+    super.init()
+  }
+}
+
 class ClusterCell: UICollectionViewCell {
 
-  var cluster: Cluster? {
+  var model: ClusterCellModel? {
+    willSet {
+      if !dummy { self.model?.removeObserver(self, forKeyPath: "selected") }
+    }
     didSet {
+      if !dummy { self.model!.addObserver(self, forKeyPath: "selected", options: .new, context: nil); }
       self.reload()
     }
   }
@@ -64,9 +77,19 @@ class ClusterCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  deinit {
+    if !dummy { self.model?.removeObserver(self, forKeyPath: "selected") }
+  }
+
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    if keyPath == "selected" {
+      self.alpha = (self.model?.selected ?? false) ? 1.0 : 0.2
+    }
+  }
+
   private func reload() {
-    self.titleLabel.text = self.cluster?.title
-    self.titleLabel.backgroundColor = self.cluster?.color ?? UIColor.clear
+    self.titleLabel.text = self.model?.cluster.title
+    self.titleLabel.backgroundColor = self.model?.cluster.color ?? UIColor.clear
     self.layoutSubviews()
     self.photoCollectionView.reloadData()
   }
@@ -79,7 +102,7 @@ class ClusterCell: UICollectionViewCell {
     self.titleLabel.frame = CGRect(x: 20, y: 20, width: titleWidth, height: self.titleLabel.frame.height)
     var end = titleLabel.frame.maxY
 
-    if let color = self.cluster?.color {
+    if let color = self.model?.cluster.color {
       self.colorLabel.frame.origin = CGPoint(x: self.frame.width / 2 - 10, y: 20)
       self.colorLabel.frame.size = CGSize(width: 20, height: 20)
       self.colorLabel.backgroundColor = color
@@ -88,7 +111,7 @@ class ClusterCell: UICollectionViewCell {
       self.colorLabel.frame = CGRect.zero
     }
 
-    let items = min(self.cluster?.photos.count ?? 0, 20)
+    let items = min(self.model?.cluster.photos.count ?? 0, 20)
     var rows = Int(items / numberOfPhotosPerRow)
     if items % numberOfPhotosPerRow != 0 {
       rows += 1
@@ -109,12 +132,12 @@ class ClusterCell: UICollectionViewCell {
 extension ClusterCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if dummy { return 0 }
-    return min(self.cluster?.photos.count ?? 0, 20)
+    return min(self.model?.cluster.photos.count ?? 0, 20)
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoPreviewCell", for: indexPath) as! PhotoPreviewCell
-    cell.photo = self.cluster!.photos[indexPath.row]
+    cell.photo = self.model!.cluster.photos[indexPath.row]
     return cell
   }
 
