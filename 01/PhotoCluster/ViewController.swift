@@ -52,11 +52,10 @@ class ViewController: UIViewController {
     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     self.view.addSubview(self.collectionView)
 
-
-    let statusBarUnderlay = UIView()
-    statusBarUnderlay.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 20)
-    statusBarUnderlay.backgroundColor = UIColor.white.withAlphaComponent(0.95)
-    self.view.addSubview(statusBarUnderlay)
+    // Peek & Pop
+    if traitCollection.forceTouchCapability == .available {
+      self.registerForPreviewing(with: self, sourceView: self.collectionView)
+    }
 
     self.clusterItem = UIBarButtonItem(title: "Cluster", style: .plain, target: self, action: #selector(clusterItemTapped))
     self.updateclusterItem()
@@ -230,3 +229,29 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     return transition
   }
 }
+
+// MARK: Peek & Pop
+extension ViewController: UIViewControllerPreviewingDelegate {
+  func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    guard let indexPath = self.collectionView.indexPathForItem(at: location) else { return nil }
+    guard let cell = self.collectionView.cellForItem(at: indexPath) else { return nil }
+    let detailViewController = GalleryDetailViewController(photo: self.photos![indexPath.row])
+    previewingContext.sourceRect = cell.frame
+    return detailViewController
+  }
+
+  func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+    let dvc = viewControllerToCommit as! GalleryDetailViewController
+    let index = self.photos!.index(of: dvc.photo)!
+    if let cell = self.collectionView.cellForItem(at: IndexPath(row: index, section: 0)) {
+      let convertedCenter = self.collectionView.convert(cell.center, to: self.view)
+      self.transitionStartingPoint = convertedCenter
+    }
+
+    let vc = GalleryViewController()
+    vc.photos = self.photos!
+    vc.currentIndex = index
+    self.present(vc, animated: true, completion: nil)
+  }
+}
+
