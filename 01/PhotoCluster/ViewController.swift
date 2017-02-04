@@ -9,13 +9,17 @@
 import UIKit
 import Photos
 import RealmSwift
+import BubbleTransition
 
 class ViewController: UIViewController {
 
-  private var collectionView: UICollectionView!
+  fileprivate var collectionView: UICollectionView!
   fileprivate var photos: [Photo]?
   fileprivate var assetCache = [String:PHAsset]()
   private var clusterItem: UIBarButtonItem!
+
+  fileprivate let transition = BubbleTransition()
+  fileprivate var transitionStartingPoint: CGPoint!
 
   init(photos: [Photo]? = nil) {
     super.init(nibName: nil, bundle: nil)
@@ -143,9 +147,15 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     collectionView.deselectItem(at: indexPath, animated: true)
+    let cell = collectionView.cellForItem(at: indexPath)!
+    let convertedCenter = collectionView.convert(cell.center, to: self.view)
+    self.transitionStartingPoint = convertedCenter
     let vc = GalleryViewController()
     vc.photos = self.photos!
     vc.currentIndex = indexPath.row
+    vc.transitioningDelegate = self
+    vc.modalPresentationStyle = .custom
+    vc.modalPresentationCapturesStatusBarAppearance = true
     self.present(vc, animated: true, completion: nil)
   }
 }
@@ -195,3 +205,28 @@ extension ViewController {
   }
 }
 
+// MARK: Transition
+extension ViewController: UIViewControllerTransitioningDelegate {
+  public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    transition.transitionMode = .present
+    transition.startingPoint = self.transitionStartingPoint
+    transition.duration = 0.40
+    transition.bubbleColor = UIColor.black
+    return transition
+  }
+
+  public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    // if current article cell is not anymore in sight, let's just use the original starting point
+    var startingPoint = self.transitionStartingPoint
+    let vc = dismissed as! GalleryViewController
+    if let cell = self.collectionView.cellForItem(at: IndexPath(row: vc.currentIndex, section: 0)) {
+      let convertedCenter = self.collectionView.convert(cell.center, to: self.view)
+      startingPoint = convertedCenter
+    }
+    transition.transitionMode = .dismiss
+    transition.startingPoint = startingPoint!
+    transition.duration = 0.36
+    transition.bubbleColor = UIColor.black
+    return transition
+  }
+}
