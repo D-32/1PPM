@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import RealmSwift
 import BubbleTransition
+import LKAlertController
 
 class PhotoStreamViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class PhotoStreamViewController: UIViewController {
   fileprivate var photos: [Photo]?
   fileprivate var assetCache = [String:PHAsset]()
   private var clusterItem: UIBarButtonItem!
+  fileprivate var loadingAlert: Alert?
 
   fileprivate let transition = BubbleTransition()
   fileprivate var transitionStartingPoint: CGPoint!
@@ -165,13 +167,14 @@ extension PhotoStreamViewController {
   fileprivate func loadNewPhotos(_ completion:@escaping (Void)->(Void)) {
     self.checkAuthorisation { (success: Bool) -> (Void) in
       if (success) {
+        let start = Date()
         var lastDate = UserDefaults.standard.object(forKey: "lastDate") as? NSDate
         if (lastDate == nil) {
           lastDate = NSDate(timeIntervalSince1970: 0)
         }
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        allPhotosOptions.fetchLimit = 1000
+        allPhotosOptions.fetchLimit = 2000
         allPhotosOptions.predicate = NSPredicate(format: "creationDate > %@ ", argumentArray: [lastDate!])
         let allPhotos = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
         var ids = [String]()
@@ -179,15 +182,43 @@ extension PhotoStreamViewController {
           ids.append(asset.localIdentifier)
         })
         UserDefaults.standard.set(NSDate(), forKey: "lastDate")
+        print("Loading \(ids.count) assets:", Date().timeIntervalSince(start))
 
-        let ih = ImportHelper()
-        ih.importAssets(ids) {
-          BackgroundProcessor.shared.start()
-          completion()
+        self.showLoadingAlertIfRequired(ids: ids) {
+          let ih = ImportHelper()
+          ih.importAssets(ids) {
+            print("Importing \(ids.count) photos:", Date().timeIntervalSince(start))
+            BackgroundProcessor.shared.start()
+            self.hideLoadingAlert {
+              completion()
+            }
+          }
         }
       } else {
         completion()
       }
+    }
+  }
+
+  private func showLoadingAlertIfRequired(ids: [String], completion:@escaping (Void)->(Void)) {
+    self.loadingAlert = nil
+    if ids.count > 20 {
+      self.loadingAlert = Alert(title: "Please Wait", message: "Importing photos...")
+      self.loadingAlert!.show(animated: true, completion: { 
+        completion()
+      })
+    } else {
+      completion()
+    }
+  }
+
+  private func hideLoadingAlert(completion:@escaping (Void)->(Void)) {
+    if let la = self.loadingAlert {
+      la.getAlertController().dismiss(animated: true, completion: { 
+        completion()
+      })
+    } else {
+      completion()
     }
   }
 

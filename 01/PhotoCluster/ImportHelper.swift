@@ -38,8 +38,6 @@ class ImportHelper {
 
   typealias ProcessAssetCompletion = (Void) -> (Void)
   private func processAsset(_ asset: PHAsset, completion: ProcessAssetCompletion) {
-    print("Processing asset:", asset.localIdentifier)
-
     let photo = Photo()
     photo.assetId = asset.localIdentifier
     photo.creationDate = asset.creationDate ?? Date()
