@@ -22,12 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window?.backgroundColor = UIColor.white
     self.window?.makeKeyAndVisible()
 
-    let vc = PhotoStreamViewController()
-    let nc = UINavigationController(rootViewController: vc)
-    self.window?.rootViewController = nc
+    if UserDefaults.standard.bool(forKey: "fle_shown") {
+      self.showMainApp()
+    } else {
+      self.window?.rootViewController = IntroViewController()
+    }
 
     return true
   }
 
+  func showMainApp() {
+    let vc = PhotoStreamViewController()
+    let nc = UINavigationController(rootViewController: vc)
+    self.window?.rootViewController = nc
+  }
 }
 

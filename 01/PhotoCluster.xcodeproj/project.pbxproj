@@ -20,6 +20,7 @@
 		036B5A2B1E41262800E75185 /* BackgroundProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036B5A2A1E41262800E75185 /* BackgroundProcessor.swift */; };
 		038638FB1E435361003D7D6A /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038638FA1E435361003D7D6A /* GalleryViewController.swift */; };
 		038638FD1E435510003D7D6A /* GalleryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038638FC1E435510003D7D6A /* GalleryDetailViewController.swift */; };
+		038E1BF21E467CE0009734CC /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038E1BF11E467CE0009734CC /* IntroViewController.swift */; };
 		03A6165F1E296D5000113753 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6165E1E296D5000113753 /* Utils.swift */; };
 		03E527821E4633FB007214A3 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E527811E4633FB007214A3 /* Keys.swift */; };
 		03E527841E4634F7007214A3 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03E527831E4634F7007214A3 /* ApiKeys.plist */; };
@@ -44,6 +45,7 @@
 		036B5A2A1E41262800E75185 /* BackgroundProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundProcessor.swift; sourceTree = "<group>"; };
 		038638FA1E435361003D7D6A /* GalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		038638FC1E435510003D7D6A /* GalleryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryDetailViewController.swift; sourceTree = "<group>"; };
+		038E1BF11E467CE0009734CC /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		03A6165E1E296D5000113753 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		03E527811E4633FB007214A3 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		03E527831E4634F7007214A3 /* ApiKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				038638FA1E435361003D7D6A /* GalleryViewController.swift */,
 				038638FC1E435510003D7D6A /* GalleryDetailViewController.swift */,
 				0301C4FB1E1AAABC00BA67FB /* ImportHelper.swift */,
+				038E1BF11E467CE0009734CC /* IntroViewController.swift */,
 				03E527811E4633FB007214A3 /* Keys.swift */,
 				0301C4F91E1AAAA300BA67FB /* Photo.swift */,
 				03339DCA1E203E6E0046219E /* PhotoCell.swift */,
@@ -274,6 +277,7 @@
 				0301C4FA1E1AAAA300BA67FB /* Photo.swift in Sources */,
 				031F52191E32B7D8004F150B /* KMeans.swift in Sources */,
 				031F521C1E32BD83004F150B /* Cluster.swift in Sources */,
+				038E1BF21E467CE0009734CC /* IntroViewController.swift in Sources */,
 				03F624A31E19B0D3005E6EBE /* PhotoStreamViewController.swift in Sources */,
 				0353DBA61E329B5C00B857B6 /* ClusterType.swift in Sources */,
 				038638FD1E435510003D7D6A /* GalleryDetailViewController.swift in Sources */,
