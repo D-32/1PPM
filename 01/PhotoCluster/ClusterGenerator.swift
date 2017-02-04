@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import CoreLocation
+import MapKit
 
 class ClusterGenerator {
 
@@ -99,46 +100,27 @@ class ClusterGenerator {
       },
                             titleGenerator:
       { (photos: [Photo]) -> (String) in
-        return ""
+        return "Unknown"
     })
 
-    for cluster in clusters {
-      let cl = CLLocation(latitude: cluster.center[0], longitude: cluster.center[1])
-      var totalDistance: Double = 0
-      for photo in cluster.photos {
-        let cp = CLLocation(latitude: photo.latitude, longitude: photo.longitude)
-        totalDistance += cl.distance(from: cp)
-      }
-      if totalDistance > 0 && !cluster.photos.isEmpty {
-        cluster.avgSizeToCenter = totalDistance / Double(cluster.photos.count)
-      }
-      cluster.title = "Unknown"
-    }
-
-    var processed = 0
     let toProcess = clusters.filter { $0.center[0] != 0 && $0.center[1] != 0 }
     for cluster in toProcess {
-      let location = CLLocation(latitude: cluster.center[0], longitude: cluster.center[1])
-      let geocoder = CLGeocoder()
-      geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-        if let e = error {
-          print(e.localizedDescription, location)
-        }
-        if let pm = placemarks?.first {
-          if cluster.avgSizeToCenter < 5000 {
-            cluster.title = pm.locality
-          } else if cluster.avgSizeToCenter < 50000 {
-            cluster.title = pm.administrativeArea
-          } else {
-            cluster.title = pm.country
-          }
-        }
-        processed += 1
-        if processed == toProcess.count {
-          completion(clusters.sorted(by: { return $0.title! < $1.title! }))
-        }
+      cluster.title = nil
+      var mapRect: MKMapRect = MKMapRectNull
+      for photo in cluster.photos {
+        mapRect = MKMapRectUnion(mapRect, MKMapRectMake(photo.latitude, photo.longitude, 0, 0))
+      }
+      if mapRect.size.width > 0.1 {
+        cluster.zoomLevel = 9
+      } else if mapRect.size.width > 0.05 {
+        cluster.zoomLevel = 10
+      } else if mapRect.size.width > 0.01 {
+        cluster.zoomLevel = 11
+      } else {
+        cluster.zoomLevel = 12
       }
     }
+    completion(clusters)
   }
 
   private func clusterByColor(_ photos: [Photo]) -> [Cluster] {

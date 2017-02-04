@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Photos
+import MapKit
 
 class ClusterCellModel: NSObject {
   dynamic var selected = true
@@ -34,6 +35,7 @@ class ClusterCell: UICollectionViewCell {
 
   private let titleLabel = UILabel()
   private let colorLabel = UIView()
+  private let thumbnailView = UIImageView()
   private var photoCollectionView: UICollectionView!
   fileprivate let numberOfPhotosPerRow = 5
 
@@ -57,6 +59,10 @@ class ClusterCell: UICollectionViewCell {
 
     self.colorLabel.layer.cornerRadius = 10
     self.addSubview(self.colorLabel)
+
+    self.thumbnailView.layer.cornerRadius = 35
+    self.thumbnailView.clipsToBounds = true
+    self.addSubview(self.thumbnailView)
 
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 0
@@ -88,10 +94,16 @@ class ClusterCell: UICollectionViewCell {
   }
 
   private func reload() {
-    self.titleLabel.text = self.model?.cluster.title
-    self.titleLabel.backgroundColor = self.model?.cluster.color ?? UIColor.clear
+    let cluster = self.model!.cluster
+
+    self.titleLabel.text = cluster.title
+    self.colorLabel.backgroundColor = cluster.color
     self.layoutSubviews()
     self.photoCollectionView.reloadData()
+
+    if let zoomLevel = cluster.zoomLevel {
+      self.thumbnailView.downloadedFrom(link: "https://maps.googleapis.com/maps/api/staticmap?center=\(cluster.center[0]),\(cluster.center[1])&zoom=\(zoomLevel)&size=140x140&key=")
+    }
   }
 
   override func layoutSubviews() {
@@ -101,14 +113,17 @@ class ClusterCell: UICollectionViewCell {
     self.titleLabel.sizeToFit()
     self.titleLabel.frame = CGRect(x: 20, y: 20, width: titleWidth, height: self.titleLabel.frame.height)
     var end = titleLabel.frame.maxY
+    self.colorLabel.frame = CGRect.zero
+    self.thumbnailView.frame = CGRect.zero
 
-    if let color = self.model?.cluster.color {
+    if self.model?.cluster.color != nil {
       self.colorLabel.frame.origin = CGPoint(x: self.frame.width / 2 - 10, y: 20)
       self.colorLabel.frame.size = CGSize(width: 20, height: 20)
-      self.colorLabel.backgroundColor = color
       end = self.colorLabel.frame.maxY
-    } else {
-      self.colorLabel.frame = CGRect.zero
+    } else if self.model?.cluster.zoomLevel != nil {
+      self.thumbnailView.frame.origin = CGPoint(x: self.frame.width / 2 - 35, y: 20)
+      self.thumbnailView.frame.size = CGSize(width: 70, height: 70)
+      end = self.thumbnailView.frame.maxY
     }
 
     let items = min(self.model?.cluster.photos.count ?? 0, 20)

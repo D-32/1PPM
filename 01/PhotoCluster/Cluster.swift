@@ -8,14 +8,15 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 class Cluster {
   var title: String?
   var color: UIColor?
+  var zoomLevel: Int?
   var photos: [Photo]
   var type: ClusterType!
   var center: [Double]!
-  var avgSizeToCenter: Double = 0
   var sortValue: Double = 0 // temporarely used to custom sort
   var customSortedPhotos = [Photo]()
   init(photos: [Photo]) {
