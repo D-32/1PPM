@@ -102,7 +102,8 @@ class ClusterCell: UICollectionViewCell {
     self.photoCollectionView.reloadData()
 
     if let zoomLevel = cluster.zoomLevel {
-      self.thumbnailView.downloadedFrom(link: "https://maps.googleapis.com/maps/api/staticmap?center=\(cluster.center[0]),\(cluster.center[1])&zoom=\(zoomLevel)&size=140x140&key=")
+      let key = Keys.shared.key(named: "GoogleMapsKey")
+      self.thumbnailView.downloadedFrom(link: "https://maps.googleapis.com/maps/api/staticmap?center=\(cluster.center[0]),\(cluster.center[1])&zoom=\(zoomLevel)&size=140x140&key=\(key)")
     }
   }
 
