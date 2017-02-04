@@ -1,0 +1,6 @@
+framework module Pods_PhotoCluster {
+  umbrella header "Pods-PhotoCluster-umbrella.h"
+
+  export *
+  module * { export * }
+}

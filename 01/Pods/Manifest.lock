@@ -1,0 +1,28 @@
+PODS:
+  - BubbleTransition (2.0.1)
+  - CHTCollectionViewWaterfallLayout (0.9.5):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
+  - LKAlertController (1.12.0)
+  - Realm (1.1.0):
+    - Realm/Headers (= 1.1.0)
+  - Realm/Headers (1.1.0)
+  - RealmSwift (1.1.0):
+    - Realm (= 1.1.0)
+
+DEPENDENCIES:
+  - BubbleTransition (~> 2.0)
+  - CHTCollectionViewWaterfallLayout (~> 0.9)
+  - LKAlertController (~> 1.6)
+  - RealmSwift (~> 1.0)
+
+SPEC CHECKSUMS:
+  BubbleTransition: bb24ed389ab672eecf3c87170d0a73f959a8e696
+  CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
+  LKAlertController: 0e046d725fd9a7d2d04339fcbc6d1065e9fac199
+  Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
+  RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
+
+PODFILE CHECKSUM: e5c216b924f21b8ae383ec454c9c838269e40f65
+
+COCOAPODS: 1.1.1
