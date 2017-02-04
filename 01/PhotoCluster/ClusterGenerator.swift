@@ -142,8 +142,10 @@ class ClusterGenerator {
   }
 
   private func clusterByColor(_ photos: [Photo]) -> [Cluster] {
+    // Yes, k-means clustering for hue isn't ideal, as it's a cyclic value
+    // But YOLO 😶
     let clusters = self.kmm(photos: photos,
-                            inputs: photos.map{ [$0.metaData!.red, $0.metaData!.green, $0.metaData!.blue] },
+                            inputs: photos.map{ [$0.metaData!.hue] },
                             sort:
       { (photo1: Photo, photo2: Photo) -> (Bool) in
         return photo1.id < photo2.id
@@ -153,10 +155,19 @@ class ClusterGenerator {
         return ""
     })
     for cluster in clusters {
-      let color = UIColor(red: CGFloat(cluster.center[0]), green: CGFloat(cluster.center[1]), blue: CGFloat(cluster.center[2]), alpha: 1.0)
+      var totalSat = 0.0
+      var totalBri = 0.0
+      for photo in cluster.photos {
+        totalSat += photo.metaData!.saturation
+        totalBri += photo.metaData!.brightness
+      }
+      let s = totalSat / Double(cluster.photos.count)
+      let b = totalBri / Double(cluster.photos.count)
+      let color = UIColor(hue: CGFloat(cluster.center[0]), saturation: CGFloat(s), brightness: CGFloat(b), alpha: 1.0)
       cluster.color = color
+      cluster.sortValue = cluster.center[0]
     }
-    return clusters
+    return clusters.sorted(by: {$0.sortValue > $1.sortValue})
   }
 
   private func clusterByBrightness(_ photos: [Photo]) -> [Cluster] {
@@ -173,8 +184,9 @@ class ClusterGenerator {
     for cluster in clusters {
       let color = UIColor(hue: 0, saturation: 0, brightness: CGFloat(cluster.center[0]), alpha: 1.0)
       cluster.color = color
+      cluster.sortValue = cluster.center[0]
     }
-    return clusters
+    return clusters.sorted(by: {$0.sortValue > $1.sortValue})
   }
 
   private func clusterByFeature(_ photos: [Photo]) -> [Cluster] {

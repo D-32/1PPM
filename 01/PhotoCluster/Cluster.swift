@@ -16,6 +16,7 @@ class Cluster {
   var type: ClusterType!
   var center: [Double]!
   var avgSizeToCenter: Double = 0
+  var sortValue: Double = 0 // temporarely used to custom sort
   var customSortedPhotos = [Photo]()
   init(photos: [Photo]) {
     self.photos = photos
